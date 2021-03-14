@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="cube" style="height: 40px; width: 40px; background: green;"></div>
+  <script>
+  var shakeIntensity = 10
+  var shakeSpeed = 20 
+  var duration = 1000
+  function shake(el) {
+    var ticks = 0
+    var quaking = setInterval(() => {
+      ticks++
+      var percentageRemaining = 1 - 1 / (duration / (ticks * shakeSpeed))
+      shakeIntensity = shakeIntensity * easeOutQuad(percentageRemaining)
+      el.style.transform = `translate(${getRandomInt(-shakeIntensity, shakeIntensity)}px, ${getRandomInt(-shakeIntensity, shakeIntensity)}px)`
+
+      if (percentageRemaining <= 0) {
+        clearInterval(quaking)
+      }
+    }, shakeSpeed)
+  }
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * max) + min
+  }
+
+  function easeOutQuad(x) {
+    return 1 - (1 - x) * (1 - x);
+  }
+
+  var cube = document.querySelector('#cube')
+  var body = document.querySelector('body')
+  shake(cube);
+  </script>
+</body>
+</html>
