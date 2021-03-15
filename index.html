@@ -7,27 +7,32 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="cube" style="height: 40px; width: 40px; background: green;"></div>
+  <div style="display: flex; align-items: center; justify-content: center; height: 500px;">
+    <div id="cube" style="height: 40px; width: 40px; background: green;"></div>
+  </div>
   <script>
   var shakeIntensity = 10
-  var shakeSpeed = 20 
+  var shakeSpeed = 30 
   var duration = 1000
   function shake(el) {
+    el.style.transition = `transform ${shakeSpeed}ms ease-in-out`
+
     var ticks = 0
     var quaking = setInterval(() => {
       ticks++
       var percentageRemaining = 1 - 1 / (duration / (ticks * shakeSpeed))
       shakeIntensity = shakeIntensity * easeOutQuad(percentageRemaining)
-      el.style.transform = `translate(${getRandomInt(-shakeIntensity, shakeIntensity)}px, ${getRandomInt(-shakeIntensity, shakeIntensity)}px)`
+      el.style.transform = `translate(${getRandomFloat(-shakeIntensity, shakeIntensity)}px, ${getRandomFloat(-shakeIntensity, shakeIntensity)}px)`
 
       if (percentageRemaining <= 0) {
         clearInterval(quaking)
+        el.style.transform = `translate(0px, 0px)`
       }
     }, shakeSpeed)
   }
 
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * max) + min
+  function getRandomFloat(min, max) {
+    return Math.random() * (max - min + 1) + min
   }
 
   function easeOutQuad(x) {
